@@ -13,6 +13,11 @@ let theme = 'default';
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
+let achievements = {
+    firstWin: false,
+    score10: false,
+    score20: false,
+};
 
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
@@ -87,6 +92,7 @@ function handlePlayerInput(event) {
         setTimeout(nextRound, 1000);
         totalWins++;
         updateStatistics();
+        checkAchievements();
     }
 }
 
@@ -167,4 +173,19 @@ function updateStatistics() {
     document.getElementById('totalGames').textContent = totalGames;
     document.getElementById('totalWins').textContent = totalWins;
     document.getElementById('totalLosses').textContent = totalLosses;
+}
+
+function checkAchievements() {
+    if (!achievements.firstWin && totalWins > 0) {
+        achievements.firstWin = true;
+        document.getElementById('firstWin').textContent = 'Achieved';
+    }
+    if (!achievements.score10 && score >= 10) {
+        achievements.score10 = true;
+        document.getElementById('score10').textContent = 'Achieved';
+    }
+    if (!achievements.score20 && score >= 20) {
+        achievements.score20 = true;
+        document.getElementById('score20').textContent = 'Achieved';
+    }
 }
