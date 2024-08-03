@@ -48,3 +48,7 @@ button {
     font-size: 18px;
     color: #333;
 }
+
+.active {
+    opacity: 0.5;
+}

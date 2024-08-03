@@ -5,6 +5,9 @@ let message = document.getElementById('message');
 let gameBoard = document.getElementById('gameBoard');
 let score = 0;
 let highScore = 0;
+let level = 1;
+let timeLeft = 30;
+let timer;
 
 document.getElementById('startButton').addEventListener('click', startGame);
 
@@ -12,9 +15,14 @@ function startGame() {
     sequence = [];
     playerSequence = [];
     score = 0;
+    level = 1;
+    timeLeft = 30;
     updateScore();
+    updateLevel();
+    updateTimeLeft();
     message.textContent = 'Simon says...';
     nextRound();
+    startTimer();
 }
 
 function nextRound() {
@@ -33,7 +41,7 @@ function displaySequence() {
             clearInterval(interval);
             enablePlayerInput();
         }
-    }, 1000);
+    }, 1000 - (level * 50));  // Speed up sequence display with each level
 }
 
 function lightUp(color) {
@@ -57,11 +65,14 @@ function handlePlayerInput(event) {
         message.textContent = 'Game Over! Click "Start Game" to try again.';
         gameBoard.removeEventListener('click', handlePlayerInput);
         updateHighScore();
+        clearInterval(timer);
     } else if (playerSequence.length === sequence.length) {
         message.textContent = 'Good job! Simon says...';
         gameBoard.removeEventListener('click', handlePlayerInput);
         score++;
         updateScore();
+        level++;
+        updateLevel();
         setTimeout(nextRound, 1000);
     }
 }
@@ -84,4 +95,25 @@ function updateHighScore() {
         highScore = score;
         document.getElementById('highScore').textContent = highScore;
     }
+}
+
+function updateLevel() {
+    document.getElementById('level').textContent = level;
+}
+
+function updateTimeLeft() {
+    document.getElementById('timeLeft').textContent = timeLeft;
+}
+
+function startTimer() {
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimeLeft();
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            message.textContent = 'Time\'s up! Click "Start Game" to try again.';
+            gameBoard.removeEventListener('click', handlePlayerInput);
+            updateHighScore();
+        }
+    }, 1000);
 }
