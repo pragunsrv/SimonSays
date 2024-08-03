@@ -72,6 +72,21 @@ button {
     color: #333;
 }
 
+.colorScheme-classic #red { background-color: red; }
+.colorScheme-classic #green { background-color: green; }
+.colorScheme-classic #blue { background-color: blue; }
+.colorScheme-classic #yellow { background-color: yellow; }
+
+.colorScheme-pastel #red { background-color: #f88; }
+.colorScheme-pastel #green { background-color: #8f8; }
+.colorScheme-pastel #blue { background-color: #88f; }
+.colorScheme-pastel #yellow { background-color: #ff8; }
+
+.colorScheme-vibrant #red { background-color: #ff0000; }
+.colorScheme-vibrant #green { background-color: #00ff00; }
+.colorScheme-vibrant #blue { background-color: #0000ff; }
+.colorScheme-vibrant #yellow { background-color: #ffff00; }
+
 #feedbackForm {
     margin-top: 20px;
 }

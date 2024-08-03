@@ -10,14 +10,18 @@ let timeLeft = 30;
 let timer;
 let difficulty = 'easy';
 let theme = 'default';
+let colorScheme = 'classic';
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
+let totalScore = 0;
+let averageScore = 0;
 let achievements = {
     firstWin: false,
     score10: false,
     score20: false,
     score30: false,
+    win5Games: false,
 };
 let gameHistory = [];
 
@@ -25,6 +29,7 @@ let gameHistory = [];
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
 document.getElementById('theme').addEventListener('change', updateTheme);
+document.getElementById('colorScheme').addEventListener('change', updateColorScheme);
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
 function startGame() {
@@ -40,7 +45,6 @@ function startGame() {
     nextRound();
     startTimer();
     totalGames++;
-    updateStatistics();
     addToHistory('Game Started');
 }
 
@@ -67,9 +71,7 @@ function displaySequence() {
 function lightUp(color) {
     const element = document.getElementById(color);
     element.classList.add('active');
-    setTimeout(() => {
-        element.classList.remove('active');
-    }, 500);
+    setTimeout(() => element.classList.remove('active'), getSpeed() / 2);
 }
 
 function enablePlayerInput() {
@@ -77,40 +79,33 @@ function enablePlayerInput() {
 }
 
 function handlePlayerInput(event) {
-    if (!event.target.classList.contains('color')) return;
-    const color = event.target.id;
-    playerSequence.push(color);
-    lightUp(color);
-    if (!checkPlayerSequence()) {
-        message.textContent = 'Game Over! Click "Start Game" to try again.';
-        gameBoard.removeEventListener('click', handlePlayerInput);
-        updateHighScore();
-        clearInterval(timer);
-        totalLosses++;
-        updateStatistics();
-        addToHistory('Game Over');
-    } else if (playerSequence.length === sequence.length) {
-        message.textContent = 'Good job! Simon says...';
-        gameBoard.removeEventListener('click', handlePlayerInput);
-        score++;
-        updateScore();
-        level++;
-        updateLevel();
-        setTimeout(nextRound, 1000);
-        totalWins++;
-        updateStatistics();
-        checkAchievements();
-        addToHistory(`Level ${level - 1} Completed`);
+    if (event.target.classList.contains('color')) {
+        const color = event.target.id;
+        playerSequence.push(color);
+        lightUp(color);
+        checkSequence();
     }
 }
 
-function checkPlayerSequence() {
-    for (let i = 0; i < playerSequence.length; i++) {
-        if (playerSequence[i] !== sequence[i]) {
-            return false;
+function checkSequence() {
+    const isCorrect = sequence.every((color, index) => color === playerSequence[index]);
+    if (!isCorrect || playerSequence.length === sequence.length) {
+        gameBoard.removeEventListener('click', handlePlayerInput);
+        if (isCorrect) {
+            score++;
+            updateScore();
+            level++;
+            updateLevel();
+            nextRound();
+        } else {
+            message.textContent = 'Game Over! Click "Start Game" to try again.';
+            clearInterval(timer);
+            updateHighScore();
+            totalLosses++;
+            updateStatistics();
+            addToHistory('Game Over');
         }
     }
-    return true;
 }
 
 function updateScore() {
@@ -170,10 +165,18 @@ function updateTheme() {
     document.body.className = `${theme}-theme`;
 }
 
+function updateColorScheme() {
+    colorScheme = document.getElementById('colorScheme').value;
+    document.body.className = `${colorScheme}-theme`;
+}
+
 function updateStatistics() {
     document.getElementById('totalGames').textContent = totalGames;
     document.getElementById('totalWins').textContent = totalWins;
     document.getElementById('totalLosses').textContent = totalLosses;
+    totalScore += score;
+    averageScore = (totalGames > 0) ? (totalScore / totalGames).toFixed(2) : 0;
+    document.getElementById('averageScore').textContent = averageScore;
 }
 
 function checkAchievements() {
@@ -192,6 +195,10 @@ function checkAchievements() {
     if (!achievements.score30 && score >= 30) {
         achievements.score30 = true;
         document.getElementById('score30').textContent = 'Achieved';
+    }
+    if (!achievements.win5Games && totalWins >= 5) {
+        achievements.win5Games = true;
+        document.getElementById('win5Games').textContent = 'Achieved';
     }
 }
 

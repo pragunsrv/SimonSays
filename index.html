@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says Game - Version 9</title>
+    <title>Simon Says Game - Version 10</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -38,12 +38,19 @@
             <option value="dark">Dark</option>
             <option value="light">Light</option>
         </select>
+        <label for="colorScheme">Color Scheme:</label>
+        <select id="colorScheme">
+            <option value="classic">Classic</option>
+            <option value="pastel">Pastel</option>
+            <option value="vibrant">Vibrant</option>
+        </select>
     </div>
     <div class="statistics">
         <h2>Statistics</h2>
         <p>Total Games Played: <span id="totalGames">0</span></p>
         <p>Total Wins: <span id="totalWins">0</span></p>
         <p>Total Losses: <span id="totalLosses">0</span></p>
+        <p>Average Score: <span id="averageScore">0</span></p>
     </div>
     <div class="achievements">
         <h2>Achievements</h2>
@@ -51,6 +58,7 @@
         <p>Score 10: <span id="score10">Not Achieved</span></p>
         <p>Score 20: <span id="score20">Not Achieved</span></p>
         <p>Score 30: <span id="score30">Not Achieved</span></p>
+        <p>Win 5 Games: <span id="win5Games">Not Achieved</span></p>
     </div>
     <div class="history">
         <h2>Game History</h2>
@@ -62,6 +70,7 @@
         <p>2. Take your time when repeating the sequence.</p>
         <p>3. Choose a comfortable difficulty level.</p>
         <p>4. Use a consistent strategy to remember the colors.</p>
+        <p>5. Practice often to improve memory and reaction time.</p>
     </div>
     <div class="feedback">
         <h2>Feedback</h2>
