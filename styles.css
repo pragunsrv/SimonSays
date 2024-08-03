@@ -6,6 +6,7 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
     margin: 0;
+    flex-direction: column;
 }
 
 .container {
@@ -49,10 +50,12 @@ button {
     color: #333;
 }
 
-.settings {
+.settings, .statistics {
     margin-top: 20px;
     font-size: 18px;
     color: #333;
+    width: 80%;
+    text-align: left;
 }
 
 .active {

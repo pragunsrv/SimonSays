@@ -10,6 +10,9 @@ let timeLeft = 30;
 let timer;
 let difficulty = 'easy';
 let theme = 'default';
+let totalGames = 0;
+let totalWins = 0;
+let totalLosses = 0;
 
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
@@ -27,6 +30,8 @@ function startGame() {
     message.textContent = 'Simon says...';
     nextRound();
     startTimer();
+    totalGames++;
+    updateStatistics();
 }
 
 function nextRound() {
@@ -70,6 +75,8 @@ function handlePlayerInput(event) {
         gameBoard.removeEventListener('click', handlePlayerInput);
         updateHighScore();
         clearInterval(timer);
+        totalLosses++;
+        updateStatistics();
     } else if (playerSequence.length === sequence.length) {
         message.textContent = 'Good job! Simon says...';
         gameBoard.removeEventListener('click', handlePlayerInput);
@@ -78,6 +85,8 @@ function handlePlayerInput(event) {
         level++;
         updateLevel();
         setTimeout(nextRound, 1000);
+        totalWins++;
+        updateStatistics();
     }
 }
 
@@ -118,6 +127,8 @@ function startTimer() {
             message.textContent = 'Time\'s up! Click "Start Game" to try again.';
             gameBoard.removeEventListener('click', handlePlayerInput);
             updateHighScore();
+            totalLosses++;
+            updateStatistics();
         }
     }, 1000);
 }
@@ -150,4 +161,10 @@ function updateTheme() {
             document.body.className = 'light-theme';
             break;
     }
+}
+
+function updateStatistics() {
+    document.getElementById('totalGames').textContent = totalGames;
+    document.getElementById('totalWins').textContent = totalWins;
+    document.getElementById('totalLosses').textContent = totalLosses;
 }
