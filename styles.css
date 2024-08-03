@@ -50,7 +50,7 @@ button {
     color: #333;
 }
 
-.settings, .statistics, .achievements, .history, .tips {
+.settings, .statistics, .achievements, .history, .tips, .feedback {
     margin-top: 20px;
     font-size: 18px;
     color: #333;
@@ -70,4 +70,19 @@ button {
 .light-theme {
     background-color: #fff;
     color: #333;
+}
+
+#feedbackForm {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#feedbackMessage {
+    margin-top: 10px;
+    font-size: 16px;
+    color: green;
 }

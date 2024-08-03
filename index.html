@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says Game - Version 8</title>
+    <title>Simon Says Game - Version 9</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -50,6 +50,7 @@
         <p>First Win: <span id="firstWin">Not Achieved</span></p>
         <p>Score 10: <span id="score10">Not Achieved</span></p>
         <p>Score 20: <span id="score20">Not Achieved</span></p>
+        <p>Score 30: <span id="score30">Not Achieved</span></p>
     </div>
     <div class="history">
         <h2>Game History</h2>
@@ -61,6 +62,15 @@
         <p>2. Take your time when repeating the sequence.</p>
         <p>3. Choose a comfortable difficulty level.</p>
         <p>4. Use a consistent strategy to remember the colors.</p>
+    </div>
+    <div class="feedback">
+        <h2>Feedback</h2>
+        <form id="feedbackForm">
+            <label for="feedbackInput">Your Feedback:</label>
+            <textarea id="feedbackInput" rows="4" cols="50"></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <div id="feedbackMessage"></div>
     </div>
     <script src="script.js"></script>
 </body>

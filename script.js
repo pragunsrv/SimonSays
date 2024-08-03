@@ -17,6 +17,7 @@ let achievements = {
     firstWin: false,
     score10: false,
     score20: false,
+    score30: false,
 };
 let gameHistory = [];
 
@@ -24,6 +25,7 @@ let gameHistory = [];
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
 document.getElementById('theme').addEventListener('change', updateTheme);
+document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
 function startGame() {
     sequence = [];
@@ -187,6 +189,10 @@ function checkAchievements() {
         achievements.score20 = true;
         document.getElementById('score20').textContent = 'Achieved';
     }
+    if (!achievements.score30 && score >= 30) {
+        achievements.score30 = true;
+        document.getElementById('score30').textContent = 'Achieved';
+    }
 }
 
 function addToHistory(event) {
@@ -194,4 +200,12 @@ function addToHistory(event) {
     const listItem = document.createElement('li');
     listItem.textContent = event;
     historyList.appendChild(listItem);
+}
+
+function submitFeedback(event) {
+    event.preventDefault();
+    const feedback = document.getElementById('feedbackInput').value;
+    document.getElementById('feedbackMessage').textContent = 'Thank you for your feedback!';
+    addToHistory(`Feedback Submitted: ${feedback}`);
+    document.getElementById('feedbackInput').value = '';
 }
