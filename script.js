@@ -11,17 +11,21 @@ let timer;
 let difficulty = 'easy';
 let theme = 'default';
 let colorScheme = 'classic';
+let speed = 'normal';
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
 let totalScore = 0;
 let averageScore = 0;
+let longestStreak = 0;
+let currentStreak = 0;
 let achievements = {
     firstWin: false,
     score10: false,
     score20: false,
     score30: false,
     win5Games: false,
+    longestStreak: false,
 };
 let gameHistory = [];
 
@@ -30,6 +34,7 @@ document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
 document.getElementById('theme').addEventListener('change', updateTheme);
 document.getElementById('colorScheme').addEventListener('change', updateColorScheme);
+document.getElementById('speed').addEventListener('change', updateSpeed);
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
 function startGame() {
@@ -44,26 +49,24 @@ function startGame() {
     message.textContent = 'Simon says...';
     nextRound();
     startTimer();
-    totalGames++;
-    addToHistory('Game Started');
 }
 
 function nextRound() {
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    sequence.push(randomColor);
     playerSequence = [];
-    const nextColor = colors[Math.floor(Math.random() * colors.length)];
-    sequence.push(nextColor);
-    displaySequence();
-    addToHistory(`Level ${level} - Sequence: ${sequence.join(', ')}`);
+    flashSequence();
+    enablePlayerInput();
 }
 
-function displaySequence() {
-    let i = 0;
+function flashSequence() {
+    let index = 0;
     const interval = setInterval(() => {
-        lightUp(sequence[i]);
-        i++;
-        if (i >= sequence.length) {
+        if (index < sequence.length) {
+            lightUp(sequence[index]);
+            index++;
+        } else {
             clearInterval(interval);
-            enablePlayerInput();
         }
     }, getSpeed());
 }
@@ -104,6 +107,8 @@ function checkSequence() {
             totalLosses++;
             updateStatistics();
             addToHistory('Game Over');
+            currentStreak = 0;
+            updateAchievements();
         }
     }
 }
@@ -139,6 +144,8 @@ function startTimer() {
             totalLosses++;
             updateStatistics();
             addToHistory('Time Up');
+            currentStreak = 0;
+            updateAchievements();
         }
     }, 1000);
 }
@@ -147,13 +154,17 @@ function updateDifficulty() {
     difficulty = document.getElementById('difficulty').value;
 }
 
+function updateSpeed() {
+    speed = document.getElementById('speed').value;
+}
+
 function getSpeed() {
-    switch (difficulty) {
-        case 'easy':
+    switch (speed) {
+        case 'normal':
             return 1000;
-        case 'medium':
+        case 'fast':
             return 750;
-        case 'hard':
+        case 'veryFast':
             return 500;
         default:
             return 1000;
@@ -177,6 +188,12 @@ function updateStatistics() {
     totalScore += score;
     averageScore = (totalGames > 0) ? (totalScore / totalGames).toFixed(2) : 0;
     document.getElementById('averageScore').textContent = averageScore;
+    document.getElementById('longestStreak').textContent = longestStreak;
+}
+
+function updateAchievements() {
+    checkAchievements();
+    checkLongestStreak();
 }
 
 function checkAchievements() {
@@ -199,6 +216,13 @@ function checkAchievements() {
     if (!achievements.win5Games && totalWins >= 5) {
         achievements.win5Games = true;
         document.getElementById('win5Games').textContent = 'Achieved';
+    }
+}
+
+function checkLongestStreak() {
+    if (currentStreak > longestStreak) {
+        longestStreak = currentStreak;
+        document.getElementById('longestStreakAchieved').textContent = 'Achieved';
     }
 }
 

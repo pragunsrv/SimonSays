@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says Game - Version 10</title>
+    <title>Simon Says Game - Version 11</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -44,6 +44,12 @@
             <option value="pastel">Pastel</option>
             <option value="vibrant">Vibrant</option>
         </select>
+        <label for="speed">Speed:</label>
+        <select id="speed">
+            <option value="normal">Normal</option>
+            <option value="fast">Fast</option>
+            <option value="veryFast">Very Fast</option>
+        </select>
     </div>
     <div class="statistics">
         <h2>Statistics</h2>
@@ -51,6 +57,7 @@
         <p>Total Wins: <span id="totalWins">0</span></p>
         <p>Total Losses: <span id="totalLosses">0</span></p>
         <p>Average Score: <span id="averageScore">0</span></p>
+        <p>Longest Streak: <span id="longestStreak">0</span></p>
     </div>
     <div class="achievements">
         <h2>Achievements</h2>
@@ -59,6 +66,7 @@
         <p>Score 20: <span id="score20">Not Achieved</span></p>
         <p>Score 30: <span id="score30">Not Achieved</span></p>
         <p>Win 5 Games: <span id="win5Games">Not Achieved</span></p>
+        <p>Longest Streak: <span id="longestStreakAchieved">Not Achieved</span></p>
     </div>
     <div class="history">
         <h2>Game History</h2>
