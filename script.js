@@ -6,16 +6,21 @@ let score = 0;
 let highScore = 0;
 let level = 1;
 let timeLeft = 30;
-let timer;
-let autoStart = false;
-let colorBlindMode = false;
 let showHints = false;
 let hintInterval = 5;
-let currentStreak = 0;
-let longestStreak = 0;
-let playerScores = {};
+let autoStart = false;
 let playerName = '';
+let playerScores = {};
 let userProfiles = {};
+let achievements = {
+    firstWin: false,
+    score10: false,
+    score20: false,
+    score30: false,
+    win5Games: false,
+    consecutiveWins: 0,
+    complete10Rounds: false,
+};
 
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', setDifficulty);
@@ -26,6 +31,14 @@ document.getElementById('hintInterval').addEventListener('change', setHintInterv
 document.getElementById('multiplayerMode').addEventListener('change', toggleMultiplayer);
 document.getElementById('submitPlayerName').addEventListener('click', submitPlayerName);
 document.getElementById('saveProfile').addEventListener('click', saveProfile);
+
+document.querySelectorAll('.color').forEach(color => {
+    color.addEventListener('click', () => handleUserInput(color.id));
+});
+
+document.querySelectorAll('.colorPicker').forEach(picker => {
+    picker.addEventListener('change', updateColor);
+});
 
 function startGame() {
     resetGame();
@@ -99,6 +112,11 @@ function updateLeaderboard() {
     });
 }
 
+function updateColor(event) {
+    const color = event.target.id;
+    document.getElementById(color).style.backgroundColor = event.target.value;
+}
+
 function resetGame() {
     sequence = [];
     userSequence = [];
@@ -119,7 +137,21 @@ function updateDisplay() {
     document.getElementById('highScore').innerText = highScore;
     document.getElementById('level').innerText = level;
     document.getElementById('timeLeft').innerText = timeLeft;
-    // Update statistics
+    document.getElementById('totalGames').innerText = 0; // Update with actual data
+    document.getElementById('totalWins').innerText = 0; // Update with actual data
+    document.getElementById('totalLosses').innerText = 0; // Update with actual data
+    document.getElementById('averageScore').innerText = 0; // Update with actual data
+    document.getElementById('longestStreak').innerText = 0; // Update with actual data
+    document.getElementById('highestScore').innerText = 0; // Update with actual data
+    document.getElementById('avgReactionTime').innerText = 0; // Update with actual data
+
+    document.getElementById('firstWin').innerText = achievements.firstWin ? 'Achieved' : 'Not Achieved';
+    document.getElementById('score10').innerText = achievements.score10 ? 'Achieved' : 'Not Achieved';
+    document.getElementById('score20').innerText = achievements.score20 ? 'Achieved' : 'Not Achieved';
+    document.getElementById('score30').innerText = achievements.score30 ? 'Achieved' : 'Not Achieved';
+    document.getElementById('win5Games').innerText = achievements.win5Games ? 'Achieved' : 'Not Achieved';
+    document.getElementById('consecutiveWins').innerText = achievements.consecutiveWins ? 'Achieved' : 'Not Achieved';
+    document.getElementById('complete10Rounds').innerText = achievements.complete10Rounds ? 'Achieved' : 'Not Achieved';
 }
 
 function handleUserInput(color) {

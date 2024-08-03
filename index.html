@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says - Version 16</title>
+    <title>Simon Says - Version 17</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Simon Says - Version 16</h1>
+        <h1>Simon Says - Version 17</h1>
         <div>
             <label for="autoStart">Auto Start:</label>
             <input type="checkbox" id="autoStart">
@@ -30,6 +30,7 @@
                 <select id="theme">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
+                    <option value="highContrast">High Contrast</option>
                 </select>
                 <label for="speed">Speed:</label>
                 <select id="speed">
@@ -41,6 +42,18 @@
                 <input type="checkbox" id="showHints">
                 <label for="hintInterval">Hint Interval (s):</label>
                 <input type="number" id="hintInterval" min="1" value="5">
+                <label for="colorScheme">Color Scheme:</label>
+                <select id="colorScheme">
+                    <option value="default">Default</option>
+                    <option value="pastel">Pastel</option>
+                    <option value="neon">Neon</option>
+                </select>
+                <label for="buttonSize">Button Size:</label>
+                <select id="buttonSize">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
             </div>
         </section>
         <section id="gameBoard">
@@ -56,7 +69,7 @@
             <div>Time Left: <span id="timeLeft">30</span></div>
         </section>
         <section>
-            <h2>Statistics</h2>
+            <h2>Statistics Dashboard</h2>
             <div>Total Games: <span id="totalGames">0</span></div>
             <div>Total Wins: <span id="totalWins">0</span></div>
             <div>Total Losses: <span id="totalLosses">0</span></div>
@@ -66,7 +79,7 @@
             <div>Average Reaction Time: <span id="avgReactionTime">0</span> ms</div>
         </section>
         <section>
-            <h2>Achievements</h2>
+            <h2>Achievements & Badges</h2>
             <div>First Win: <span id="firstWin">Not Achieved</span></div>
             <div>Score 10: <span id="score10">Not Achieved</span></div>
             <div>Score 20: <span id="score20">Not Achieved</span></div>
@@ -76,51 +89,10 @@
             <div>Complete 10 Rounds: <span id="complete10Rounds">Not Achieved</span></div>
         </section>
         <section>
-            <h2>Game History</h2>
-            <div id="gameHistory"></div>
-        </section>
-        <section>
-            <h2>Feedback</h2>
-            <form id="feedbackForm">
-                <textarea id="feedback" rows="4" cols="50"></textarea>
-                <button type="submit">Submit Feedback</button>
-            </form>
-        </section>
-        <section>
             <h2>Multiplayer Mode</h2>
             <label for="multiplayerMode">Enable Multiplayer:</label>
             <input type="checkbox" id="multiplayerMode">
             <div id="playerNameInput" style="display:none;">
                 <label for="playerName">Enter Player Name:</label>
                 <input type="text" id="playerName">
-                <button id="submitPlayerName">Submit</button>
-            </div>
-            <div id="leaderboard" style="display:none;">
-                <h3>Leaderboard</h3>
-                <ul id="leaderboardList"></ul>
-            </div>
-        </section>
-        <section>
-            <h2>Customize Colors</h2>
-            <div>
-                <label for="redPicker">Red:</label>
-                <input type="color" id="redPicker" class="colorPicker">
-                <label for="greenPicker">Green:</label>
-                <input type="color" id="greenPicker" class="colorPicker">
-                <label for="bluePicker">Blue:</label>
-                <input type="color" id="bluePicker" class="colorPicker">
-                <label for="yellowPicker">Yellow:</label>
-                <input type="color" id="yellowPicker" class="colorPicker">
-            </div>
-        </section>
-        <section>
-            <h2>User Profiles</h2>
-            <label for="username">Username:</label>
-            <input type="text" id="username">
-            <button id="saveProfile">Save Profile</button>
-            <div id="profileInfo"></div>
-        </section>
-    </main>
-    <script src="script.js"></script>
-</body>
-</html>
+                <button id
