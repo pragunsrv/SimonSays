@@ -14,6 +14,8 @@ let colorScheme = 'classic';
 let speed = 'normal';
 let showHints = false;
 let autoStart = false;
+let colorBlindMode = false;
+let hintInterval = 3;
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
@@ -28,12 +30,11 @@ let achievements = {
     score20: false,
     score30: false,
     win5Games: false,
-    longestStreak: false,
-    consecutiveWins: false
+    consecutiveWins: false,
+    complete10Rounds: false
 };
 let gameHistory = [];
 
-// Event listeners
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
 document.getElementById('theme').addEventListener('change', updateTheme);
@@ -42,6 +43,13 @@ document.getElementById('speed').addEventListener('change', updateSpeed);
 document.getElementById('showHints').addEventListener('change', updateHints);
 document.getElementById('autoStart').addEventListener('change', () => {
     autoStart = document.getElementById('autoStart').checked;
+});
+document.getElementById('colorBlindMode').addEventListener('change', () => {
+    colorBlindMode = document.getElementById('colorBlindMode').checked;
+    updateColorScheme();
+});
+document.getElementById('hintInterval').addEventListener('change', () => {
+    hintInterval = parseInt(document.getElementById('hintInterval').value, 10);
 });
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
@@ -53,6 +61,7 @@ function startGame() {
     timeLeft = 30;
     currentStreak = 0;
     consecutiveWins = 0;
+    totalGames++;
     updateScore();
     updateLevel();
     updateTimeLeft();
@@ -66,6 +75,16 @@ function nextRound() {
     playerSequence = [];
     flashSequence();
     enablePlayerInput();
+    if (showHints) {
+        setTimeout(() => showHintsToPlayer(), hintInterval * 1000);
+    }
+}
+
+function showHintsToPlayer() {
+    if (sequence.length > 0) {
+        message.textContent = `Hint: The next color is ${sequence[sequence.length - 1].toUpperCase()}`;
+        setTimeout(() => message.textContent = '', 2000);
+    }
 }
 
 function flashSequence() {
@@ -197,6 +216,11 @@ function updateTheme() {
 function updateColorScheme() {
     colorScheme = document.getElementById('colorScheme').value;
     document.body.className = `${colorScheme}-theme`;
+    if (colorBlindMode) {
+        document.body.classList.add('color-blind');
+    } else {
+        document.body.classList.remove('color-blind');
+    }
 }
 
 function updateHints() {
@@ -247,7 +271,11 @@ function checkAchievements() {
     }
     if (!achievements.consecutiveWins && consecutiveWins >= 3) {
         achievements.consecutiveWins = true;
-        document.getElementById('consecutiveWins').textContent = 'Achieved';
+        document.getElementById('consecutiveWinsAchieved').textContent = 'Achieved';
+    }
+    if (!achievements.complete10Rounds && totalGames >= 10) {
+        achievements.complete10Rounds = true;
+        document.getElementById('complete10Rounds').textContent = 'Achieved';
     }
 }
 

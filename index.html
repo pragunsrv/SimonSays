@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says Game - Version 13</title>
+    <title>Simon Says Game - Version 14</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -54,6 +54,10 @@
         <input type="checkbox" id="showHints">
         <label for="autoStart">Auto Start Next Round:</label>
         <input type="checkbox" id="autoStart">
+        <label for="colorBlindMode">Color Blind Mode:</label>
+        <input type="checkbox" id="colorBlindMode">
+        <label for="hintInterval">Hint Interval:</label>
+        <input type="number" id="hintInterval" min="1" max="10" step="1" value="3">
     </div>
     <div class="statistics">
         <h2>Statistics</h2>
@@ -62,6 +66,7 @@
         <p>Total Losses: <span id="totalLosses">0</span></p>
         <p>Average Score: <span id="averageScore">0</span></p>
         <p>Longest Streak: <span id="longestStreak">0</span></p>
+        <p>Consecutive Wins: <span id="consecutiveWins">0</span></p>
     </div>
     <div class="achievements">
         <h2>Achievements</h2>
@@ -71,7 +76,8 @@
         <p>Score 30: <span id="score30">Not Achieved</span></p>
         <p>Win 5 Games: <span id="win5Games">Not Achieved</span></p>
         <p>Longest Streak: <span id="longestStreakAchieved">Not Achieved</span></p>
-        <p>Win Consecutive Games: <span id="consecutiveWins">Not Achieved</span></p>
+        <p>Win Consecutive Games: <span id="consecutiveWinsAchieved">Not Achieved</span></p>
+        <p>Complete 10 Rounds: <span id="complete10Rounds">Not Achieved</span></p>
     </div>
     <div class="history">
         <h2>Game History</h2>
