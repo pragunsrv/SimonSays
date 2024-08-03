@@ -14,9 +14,7 @@ body.high-contrast-theme {
     color: #fff;
 }
 
-body.color-blind {
-    /* Adjustments for color-blind mode */
-}
+
 
 #gameBoard {
     display: flex;
@@ -75,6 +73,19 @@ textarea {
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
+}
+
+#leaderboard {
+    margin: 20px 0;
+}
+
+#leaderboardList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#profileInfo {
+    margin-top: 10px;
 }
 
 h2 {

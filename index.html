@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says - Version 15</title>
+    <title>Simon Says - Version 16</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Simon Says - Version 15</h1>
+        <h1>Simon Says - Version 16</h1>
         <div>
             <label for="autoStart">Auto Start:</label>
             <input type="checkbox" id="autoStart">
@@ -30,11 +30,6 @@
                 <select id="theme">
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
-                </select>
-                <label for="colorScheme">Color Scheme:</label>
-                <select id="colorScheme">
-                    <option value="default">Default</option>
-                    <option value="highContrast">High Contrast</option>
                 </select>
                 <label for="speed">Speed:</label>
                 <select id="speed">
@@ -67,6 +62,8 @@
             <div>Total Losses: <span id="totalLosses">0</span></div>
             <div>Average Score: <span id="averageScore">0</span></div>
             <div>Longest Streak: <span id="longestStreak">0</span></div>
+            <div>Highest Score: <span id="highestScore">0</span></div>
+            <div>Average Reaction Time: <span id="avgReactionTime">0</span> ms</div>
         </section>
         <section>
             <h2>Achievements</h2>
@@ -98,6 +95,10 @@
                 <input type="text" id="playerName">
                 <button id="submitPlayerName">Submit</button>
             </div>
+            <div id="leaderboard" style="display:none;">
+                <h3>Leaderboard</h3>
+                <ul id="leaderboardList"></ul>
+            </div>
         </section>
         <section>
             <h2>Customize Colors</h2>
@@ -111,6 +112,13 @@
                 <label for="yellowPicker">Yellow:</label>
                 <input type="color" id="yellowPicker" class="colorPicker">
             </div>
+        </section>
+        <section>
+            <h2>User Profiles</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username">
+            <button id="saveProfile">Save Profile</button>
+            <div id="profileInfo"></div>
         </section>
     </main>
     <script src="script.js"></script>
