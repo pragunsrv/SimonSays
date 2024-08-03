@@ -13,6 +13,7 @@ let theme = 'default';
 let colorScheme = 'classic';
 let speed = 'normal';
 let showHints = false;
+let autoStart = false;
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
@@ -20,6 +21,7 @@ let totalScore = 0;
 let averageScore = 0;
 let longestStreak = 0;
 let currentStreak = 0;
+let consecutiveWins = 0;
 let achievements = {
     firstWin: false,
     score10: false,
@@ -27,6 +29,7 @@ let achievements = {
     score30: false,
     win5Games: false,
     longestStreak: false,
+    consecutiveWins: false
 };
 let gameHistory = [];
 
@@ -37,6 +40,9 @@ document.getElementById('theme').addEventListener('change', updateTheme);
 document.getElementById('colorScheme').addEventListener('change', updateColorScheme);
 document.getElementById('speed').addEventListener('change', updateSpeed);
 document.getElementById('showHints').addEventListener('change', updateHints);
+document.getElementById('autoStart').addEventListener('change', () => {
+    autoStart = document.getElementById('autoStart').checked;
+});
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
 function startGame() {
@@ -46,6 +52,7 @@ function startGame() {
     level = 1;
     timeLeft = 30;
     currentStreak = 0;
+    consecutiveWins = 0;
     updateScore();
     updateLevel();
     updateTimeLeft();
@@ -98,11 +105,18 @@ function checkSequence() {
         gameBoard.removeEventListener('click', handlePlayerInput);
         if (isCorrect) {
             score++;
+            currentStreak++;
+            consecutiveWins++;
             updateScore();
             level++;
             updateLevel();
-            nextRound();
+            if (autoStart) {
+                nextRound();
+            } else {
+                message.textContent = 'Correct! Click "Start Game" to continue.';
+            }
         } else {
+            gameBoard.removeEventListener('click', handlePlayerInput);
             message.textContent = 'Game Over! Click "Start Game" to try again.';
             clearInterval(timer);
             updateHighScore();
@@ -110,6 +124,7 @@ function checkSequence() {
             updateStatistics();
             addToHistory('Game Over');
             currentStreak = 0;
+            consecutiveWins = 0;
             updateAchievements();
         }
     }
@@ -147,6 +162,7 @@ function startTimer() {
             updateStatistics();
             addToHistory('Time Up');
             currentStreak = 0;
+            consecutiveWins = 0;
             updateAchievements();
         }
     }, 1000);
@@ -200,6 +216,7 @@ function updateStatistics() {
     averageScore = (totalGames > 0) ? (totalScore / totalGames).toFixed(2) : 0;
     document.getElementById('averageScore').textContent = averageScore;
     document.getElementById('longestStreak').textContent = longestStreak;
+    document.getElementById('consecutiveWins').textContent = consecutiveWins;
 }
 
 function updateAchievements() {
@@ -227,6 +244,10 @@ function checkAchievements() {
     if (!achievements.win5Games && totalWins >= 5) {
         achievements.win5Games = true;
         document.getElementById('win5Games').textContent = 'Achieved';
+    }
+    if (!achievements.consecutiveWins && consecutiveWins >= 3) {
+        achievements.consecutiveWins = true;
+        document.getElementById('consecutiveWins').textContent = 'Achieved';
     }
 }
 
