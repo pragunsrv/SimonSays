@@ -8,8 +8,12 @@ let highScore = 0;
 let level = 1;
 let timeLeft = 30;
 let timer;
+let difficulty = 'easy';
+let theme = 'default';
 
 document.getElementById('startButton').addEventListener('click', startGame);
+document.getElementById('difficulty').addEventListener('change', updateDifficulty);
+document.getElementById('theme').addEventListener('change', updateTheme);
 
 function startGame() {
     sequence = [];
@@ -41,7 +45,7 @@ function displaySequence() {
             clearInterval(interval);
             enablePlayerInput();
         }
-    }, 1000 - (level * 50));  // Speed up sequence display with each level
+    }, getSpeed());
 }
 
 function lightUp(color) {
@@ -116,4 +120,34 @@ function startTimer() {
             updateHighScore();
         }
     }, 1000);
+}
+
+function updateDifficulty() {
+    difficulty = document.getElementById('difficulty').value;
+}
+
+function getSpeed() {
+    switch (difficulty) {
+        case 'easy':
+            return 1000;
+        case 'medium':
+            return 750;
+        case 'hard':
+            return 500;
+    }
+}
+
+function updateTheme() {
+    theme = document.getElementById('theme').value;
+    switch (theme) {
+        case 'default':
+            document.body.className = '';
+            break;
+        case 'dark':
+            document.body.className = 'dark-theme';
+            break;
+        case 'light':
+            document.body.className = 'light-theme';
+            break;
+    }
 }

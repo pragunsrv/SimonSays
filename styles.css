@@ -49,6 +49,22 @@ button {
     color: #333;
 }
 
+.settings {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
 .active {
     opacity: 0.5;
+}
+
+.dark-theme {
+    background-color: #333;
+    color: #fff;
+}
+
+.light-theme {
+    background-color: #fff;
+    color: #333;
 }
