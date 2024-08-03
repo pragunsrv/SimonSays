@@ -12,6 +12,7 @@ let difficulty = 'easy';
 let theme = 'default';
 let colorScheme = 'classic';
 let speed = 'normal';
+let showHints = false;
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
@@ -35,6 +36,7 @@ document.getElementById('difficulty').addEventListener('change', updateDifficult
 document.getElementById('theme').addEventListener('change', updateTheme);
 document.getElementById('colorScheme').addEventListener('change', updateColorScheme);
 document.getElementById('speed').addEventListener('change', updateSpeed);
+document.getElementById('showHints').addEventListener('change', updateHints);
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
 function startGame() {
@@ -43,12 +45,12 @@ function startGame() {
     score = 0;
     level = 1;
     timeLeft = 30;
+    currentStreak = 0;
     updateScore();
     updateLevel();
     updateTimeLeft();
-    message.textContent = 'Simon says...';
-    nextRound();
     startTimer();
+    nextRound();
 }
 
 function nextRound() {
@@ -181,6 +183,15 @@ function updateColorScheme() {
     document.body.className = `${colorScheme}-theme`;
 }
 
+function updateHints() {
+    showHints = document.getElementById('showHints').checked;
+    if (showHints) {
+        message.textContent = 'Hints are now enabled!';
+    } else {
+        message.textContent = '';
+    }
+}
+
 function updateStatistics() {
     document.getElementById('totalGames').textContent = totalGames;
     document.getElementById('totalWins').textContent = totalWins;
@@ -227,10 +238,17 @@ function checkLongestStreak() {
 }
 
 function addToHistory(event) {
+    gameHistory.push(event);
+    if (gameHistory.length > 10) {
+        gameHistory.shift(); // Remove the oldest event if there are more than 10
+    }
     const historyList = document.getElementById('historyList');
-    const listItem = document.createElement('li');
-    listItem.textContent = event;
-    historyList.appendChild(listItem);
+    historyList.innerHTML = ''; // Clear the list
+    gameHistory.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = item;
+        historyList.appendChild(listItem);
+    });
 }
 
 function submitFeedback(event) {
