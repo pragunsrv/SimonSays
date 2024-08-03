@@ -37,6 +37,12 @@ button {
     cursor: pointer;
 }
 
+#scoreBoard {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
 #message {
     margin-top: 20px;
     font-size: 18px;
