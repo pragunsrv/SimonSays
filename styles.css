@@ -1,30 +1,37 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-    flex-direction: column;
+/* styles.css */
+body.light-theme {
+    background-color: #fff;
+    color: #000;
 }
 
-.container {
-    text-align: center;
+body.dark-theme {
+    background-color: #000;
+    color: #fff;
+}
+
+body.high-contrast-theme {
+    background-color: #000;
+    color: #fff;
+}
+
+body.color-blind {
+    /* Adjustments for color-blind mode */
 }
 
 #gameBoard {
-    display: grid;
-    grid-template-columns: repeat(2, 100px);
-    grid-gap: 10px;
-    justify-content: center;
-    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 200px;
+    margin: 0 auto;
 }
 
 .color {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #red { background-color: red; }
@@ -32,72 +39,44 @@ body {
 #blue { background-color: blue; }
 #yellow { background-color: yellow; }
 
+.color.active {
+    opacity: 0.7;
+}
+
+header, main {
+    text-align: center;
+    margin: 20px;
+}
+
 button {
+    margin: 10px;
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
 }
 
-#scoreBoard {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
+label {
+    margin-right: 10px;
 }
 
-#message {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
+input[type="checkbox"], input[type="number"] {
+    margin-left: 10px;
 }
 
-.settings, .statistics, .achievements, .history, .tips, .feedback {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
-    width: 80%;
-    text-align: left;
-}
-
-.active {
-    opacity: 0.5;
-}
-
-.dark-theme {
-    background-color: #333;
-    color: #fff;
-}
-
-.light-theme {
-    background-color: #fff;
-    color: #333;
-}
-
-.colorScheme-classic #red { background-color: red; }
-.colorScheme-classic #green { background-color: green; }
-.colorScheme-classic #blue { background-color: blue; }
-.colorScheme-classic #yellow { background-color: yellow; }
-
-.colorScheme-pastel #red { background-color: #f88; }
-.colorScheme-pastel #green { background-color: #8f8; }
-.colorScheme-pastel #blue { background-color: #88f; }
-.colorScheme-pastel #yellow { background-color: #ff8; }
-
-.colorScheme-vibrant #red { background-color: #ff0000; }
-.colorScheme-vibrant #green { background-color: #00ff00; }
-.colorScheme-vibrant #blue { background-color: #0000ff; }
-.colorScheme-vibrant #yellow { background-color: #ffff00; }
-
-#feedbackForm {
-    margin-top: 20px;
+select {
+    margin: 10px;
 }
 
 textarea {
     width: 100%;
-    margin-bottom: 10px;
 }
 
-#feedbackMessage {
-    margin-top: 10px;
-    font-size: 16px;
-    color: green;
+#gameHistory {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+h2 {
+    margin-top: 20px;
 }

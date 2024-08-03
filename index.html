@@ -3,103 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simon Says Game - Version 14</title>
+    <title>Simon Says - Version 15</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Simon Says</h1>
-        <button id="startButton">Start Game</button>
-        <div id="gameBoard">
+    <header>
+        <h1>Simon Says - Version 15</h1>
+        <div>
+            <label for="autoStart">Auto Start:</label>
+            <input type="checkbox" id="autoStart">
+            <label for="colorBlindMode">Color Blind Mode:</label>
+            <input type="checkbox" id="colorBlindMode">
+        </div>
+    </header>
+    <main>
+        <section>
+            <button id="startButton">Start Game</button>
+            <div>
+                <label for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <label for="theme">Theme:</label>
+                <select id="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+                <label for="colorScheme">Color Scheme:</label>
+                <select id="colorScheme">
+                    <option value="default">Default</option>
+                    <option value="highContrast">High Contrast</option>
+                </select>
+                <label for="speed">Speed:</label>
+                <select id="speed">
+                    <option value="normal">Normal</option>
+                    <option value="fast">Fast</option>
+                    <option value="veryFast">Very Fast</option>
+                </select>
+                <label for="showHints">Show Hints:</label>
+                <input type="checkbox" id="showHints">
+                <label for="hintInterval">Hint Interval (s):</label>
+                <input type="number" id="hintInterval" min="1" value="5">
+            </div>
+        </section>
+        <section id="gameBoard">
             <div class="color" id="red"></div>
             <div class="color" id="green"></div>
             <div class="color" id="blue"></div>
             <div class="color" id="yellow"></div>
-        </div>
-        <div id="scoreBoard">
-            <p>Score: <span id="score">0</span></p>
-            <p>High Score: <span id="highScore">0</span></p>
-            <p>Level: <span id="level">1</span></p>
-            <p>Time Left: <span id="timeLeft">30</span> seconds</p>
-        </div>
-        <div id="message"></div>
-    </div>
-    <div class="settings">
-        <h2>Settings</h2>
-        <label for="difficulty">Difficulty:</label>
-        <select id="difficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <label for="theme">Theme:</label>
-        <select id="theme">
-            <option value="default">Default</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
-        <label for="colorScheme">Color Scheme:</label>
-        <select id="colorScheme">
-            <option value="classic">Classic</option>
-            <option value="pastel">Pastel</option>
-            <option value="vibrant">Vibrant</option>
-        </select>
-        <label for="speed">Speed:</label>
-        <select id="speed">
-            <option value="normal">Normal</option>
-            <option value="fast">Fast</option>
-            <option value="veryFast">Very Fast</option>
-        </select>
-        <label for="showHints">Show Hints:</label>
-        <input type="checkbox" id="showHints">
-        <label for="autoStart">Auto Start Next Round:</label>
-        <input type="checkbox" id="autoStart">
-        <label for="colorBlindMode">Color Blind Mode:</label>
-        <input type="checkbox" id="colorBlindMode">
-        <label for="hintInterval">Hint Interval:</label>
-        <input type="number" id="hintInterval" min="1" max="10" step="1" value="3">
-    </div>
-    <div class="statistics">
-        <h2>Statistics</h2>
-        <p>Total Games Played: <span id="totalGames">0</span></p>
-        <p>Total Wins: <span id="totalWins">0</span></p>
-        <p>Total Losses: <span id="totalLosses">0</span></p>
-        <p>Average Score: <span id="averageScore">0</span></p>
-        <p>Longest Streak: <span id="longestStreak">0</span></p>
-        <p>Consecutive Wins: <span id="consecutiveWins">0</span></p>
-    </div>
-    <div class="achievements">
-        <h2>Achievements</h2>
-        <p>First Win: <span id="firstWin">Not Achieved</span></p>
-        <p>Score 10: <span id="score10">Not Achieved</span></p>
-        <p>Score 20: <span id="score20">Not Achieved</span></p>
-        <p>Score 30: <span id="score30">Not Achieved</span></p>
-        <p>Win 5 Games: <span id="win5Games">Not Achieved</span></p>
-        <p>Longest Streak: <span id="longestStreakAchieved">Not Achieved</span></p>
-        <p>Win Consecutive Games: <span id="consecutiveWinsAchieved">Not Achieved</span></p>
-        <p>Complete 10 Rounds: <span id="complete10Rounds">Not Achieved</span></p>
-    </div>
-    <div class="history">
-        <h2>Game History</h2>
-        <ul id="historyList"></ul>
-    </div>
-    <div class="tips">
-        <h2>Game Tips</h2>
-        <p>1. Pay close attention to the sequence.</p>
-        <p>2. Take your time when repeating the sequence.</p>
-        <p>3. Choose a comfortable difficulty level.</p>
-        <p>4. Use a consistent strategy to remember the colors.</p>
-        <p>5. Practice often to improve memory and reaction time.</p>
-    </div>
-    <div class="feedback">
-        <h2>Feedback</h2>
-        <form id="feedbackForm">
-            <label for="feedbackInput">Your Feedback:</label>
-            <textarea id="feedbackInput" rows="4" cols="50"></textarea>
-            <button type="submit">Submit Feedback</button>
-        </form>
-        <div id="feedbackMessage"></div>
-    </div>
+        </section>
+        <section>
+            <div>Score: <span id="score">0</span></div>
+            <div>High Score: <span id="highScore">0</span></div>
+            <div>Level: <span id="level">1</span></div>
+            <div>Time Left: <span id="timeLeft">30</span></div>
+        </section>
+        <section>
+            <h2>Statistics</h2>
+            <div>Total Games: <span id="totalGames">0</span></div>
+            <div>Total Wins: <span id="totalWins">0</span></div>
+            <div>Total Losses: <span id="totalLosses">0</span></div>
+            <div>Average Score: <span id="averageScore">0</span></div>
+            <div>Longest Streak: <span id="longestStreak">0</span></div>
+        </section>
+        <section>
+            <h2>Achievements</h2>
+            <div>First Win: <span id="firstWin">Not Achieved</span></div>
+            <div>Score 10: <span id="score10">Not Achieved</span></div>
+            <div>Score 20: <span id="score20">Not Achieved</span></div>
+            <div>Score 30: <span id="score30">Not Achieved</span></div>
+            <div>Win 5 Games: <span id="win5Games">Not Achieved</span></div>
+            <div>Consecutive Wins: <span id="consecutiveWins">Not Achieved</span></div>
+            <div>Complete 10 Rounds: <span id="complete10Rounds">Not Achieved</span></div>
+        </section>
+        <section>
+            <h2>Game History</h2>
+            <div id="gameHistory"></div>
+        </section>
+        <section>
+            <h2>Feedback</h2>
+            <form id="feedbackForm">
+                <textarea id="feedback" rows="4" cols="50"></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+        <section>
+            <h2>Multiplayer Mode</h2>
+            <label for="multiplayerMode">Enable Multiplayer:</label>
+            <input type="checkbox" id="multiplayerMode">
+            <div id="playerNameInput" style="display:none;">
+                <label for="playerName">Enter Player Name:</label>
+                <input type="text" id="playerName">
+                <button id="submitPlayerName">Submit</button>
+            </div>
+        </section>
+        <section>
+            <h2>Customize Colors</h2>
+            <div>
+                <label for="redPicker">Red:</label>
+                <input type="color" id="redPicker" class="colorPicker">
+                <label for="greenPicker">Green:</label>
+                <input type="color" id="greenPicker" class="colorPicker">
+                <label for="bluePicker">Blue:</label>
+                <input type="color" id="bluePicker" class="colorPicker">
+                <label for="yellowPicker">Yellow:</label>
+                <input type="color" id="yellowPicker" class="colorPicker">
+            </div>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

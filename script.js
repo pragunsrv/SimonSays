@@ -1,29 +1,29 @@
+// script.js
+const colors = ['red', 'green', 'blue', 'yellow'];
 let sequence = [];
 let playerSequence = [];
-let colors = ['red', 'green', 'blue', 'yellow'];
-let message = document.getElementById('message');
-let gameBoard = document.getElementById('gameBoard');
 let score = 0;
-let highScore = 0;
 let level = 1;
-let timeLeft = 30;
 let timer;
-let difficulty = 'easy';
-let theme = 'default';
-let colorScheme = 'classic';
-let speed = 'normal';
-let showHints = false;
-let autoStart = false;
-let colorBlindMode = false;
-let hintInterval = 3;
+let timeLeft = 30;
+let currentStreak = 0;
+let longestStreak = 0;
 let totalGames = 0;
 let totalWins = 0;
 let totalLosses = 0;
+let highScore = 0;
 let totalScore = 0;
 let averageScore = 0;
-let longestStreak = 0;
-let currentStreak = 0;
-let consecutiveWins = 0;
+let autoStart = false;
+let colorBlindMode = false;
+let showHints = false;
+let hintInterval = 5;
+let speed = 'normal';
+let difficulty = 'easy';
+let theme = 'light';
+let colorScheme = 'default';
+let playerNames = {}; // For multiplayer mode
+let gameHistory = [];
 let achievements = {
     firstWin: false,
     score10: false,
@@ -33,7 +33,6 @@ let achievements = {
     consecutiveWins: false,
     complete10Rounds: false
 };
-let gameHistory = [];
 
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
@@ -52,6 +51,8 @@ document.getElementById('hintInterval').addEventListener('change', () => {
     hintInterval = parseInt(document.getElementById('hintInterval').value, 10);
 });
 document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
+document.getElementById('multiplayerMode').addEventListener('change', toggleMultiplayerMode);
+document.getElementById('colorPicker').addEventListener('change', updateColorPicker);
 
 function startGame() {
     sequence = [];
@@ -60,7 +61,6 @@ function startGame() {
     level = 1;
     timeLeft = 30;
     currentStreak = 0;
-    consecutiveWins = 0;
     totalGames++;
     updateScore();
     updateLevel();
@@ -125,7 +125,6 @@ function checkSequence() {
         if (isCorrect) {
             score++;
             currentStreak++;
-            consecutiveWins++;
             updateScore();
             level++;
             updateLevel();
@@ -143,7 +142,6 @@ function checkSequence() {
             updateStatistics();
             addToHistory('Game Over');
             currentStreak = 0;
-            consecutiveWins = 0;
             updateAchievements();
         }
     }
@@ -181,7 +179,6 @@ function startTimer() {
             updateStatistics();
             addToHistory('Time Up');
             currentStreak = 0;
-            consecutiveWins = 0;
             updateAchievements();
         }
     }, 1000);
@@ -232,6 +229,34 @@ function updateHints() {
     }
 }
 
+function updateColorPicker() {
+    const colorInputs = document.querySelectorAll('.colorPicker');
+    colorInputs.forEach(input => {
+        colors[input.id] = input.value;
+    });
+    updateColorScheme();
+}
+
+function toggleMultiplayerMode() {
+    const multiplayer = document.getElementById('multiplayerMode').checked;
+    if (multiplayer) {
+        document.getElementById('playerNameInput').style.display = 'block';
+        document.getElementById('submitPlayerName').style.display = 'block';
+    } else {
+        document.getElementById('playerNameInput').style.display = 'none';
+        document.getElementById('submitPlayerName').style.display = 'none';
+    }
+}
+
+function submitPlayerName(event) {
+    event.preventDefault();
+    const playerName = document.getElementById('playerName').value;
+    if (playerName) {
+        playerNames[playerName] = { score: 0, games: 0 };
+        document.getElementById('playerName').value = '';
+    }
+}
+
 function updateStatistics() {
     document.getElementById('totalGames').textContent = totalGames;
     document.getElementById('totalWins').textContent = totalWins;
@@ -240,7 +265,6 @@ function updateStatistics() {
     averageScore = (totalGames > 0) ? (totalScore / totalGames).toFixed(2) : 0;
     document.getElementById('averageScore').textContent = averageScore;
     document.getElementById('longestStreak').textContent = longestStreak;
-    document.getElementById('consecutiveWins').textContent = consecutiveWins;
 }
 
 function updateAchievements() {
@@ -269,9 +293,9 @@ function checkAchievements() {
         achievements.win5Games = true;
         document.getElementById('win5Games').textContent = 'Achieved';
     }
-    if (!achievements.consecutiveWins && consecutiveWins >= 3) {
+    if (!achievements.consecutiveWins && currentStreak >= 3) {
         achievements.consecutiveWins = true;
-        document.getElementById('consecutiveWinsAchieved').textContent = 'Achieved';
+        document.getElementById('consecutiveWins').textContent = 'Achieved';
     }
     if (!achievements.complete10Rounds && totalGames >= 10) {
         achievements.complete10Rounds = true;
@@ -282,28 +306,30 @@ function checkAchievements() {
 function checkLongestStreak() {
     if (currentStreak > longestStreak) {
         longestStreak = currentStreak;
-        document.getElementById('longestStreakAchieved').textContent = 'Achieved';
     }
 }
 
 function addToHistory(event) {
-    gameHistory.push(event);
-    if (gameHistory.length > 10) {
-        gameHistory.shift(); // Remove the oldest event if there are more than 10
-    }
-    const historyList = document.getElementById('historyList');
-    historyList.innerHTML = ''; // Clear the list
-    gameHistory.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = item;
-        historyList.appendChild(listItem);
+    gameHistory.push({ event, score, timestamp: new Date().toLocaleString() });
+    updateGameHistory();
+}
+
+function updateGameHistory() {
+    const historyContainer = document.getElementById('gameHistory');
+    historyContainer.innerHTML = '';
+    gameHistory.forEach(entry => {
+        const p = document.createElement('p');
+        p.textContent = `${entry.timestamp}: ${entry.event} - Score: ${entry.score}`;
+        historyContainer.appendChild(p);
     });
 }
 
 function submitFeedback(event) {
     event.preventDefault();
-    const feedback = document.getElementById('feedbackInput').value;
-    document.getElementById('feedbackMessage').textContent = 'Thank you for your feedback!';
-    addToHistory(`Feedback Submitted: ${feedback}`);
-    document.getElementById('feedbackInput').value = '';
+    const feedback = document.getElementById('feedback').value;
+    if (feedback) {
+        addToHistory(`Feedback Submitted: ${feedback}`);
+        document.getElementById('feedback').value = '';
+        alert('Feedback submitted. Thank you!');
+    }
 }
