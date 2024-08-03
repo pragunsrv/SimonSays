@@ -18,7 +18,9 @@ let achievements = {
     score10: false,
     score20: false,
 };
+let gameHistory = [];
 
+// Event listeners
 document.getElementById('startButton').addEventListener('click', startGame);
 document.getElementById('difficulty').addEventListener('change', updateDifficulty);
 document.getElementById('theme').addEventListener('change', updateTheme);
@@ -37,6 +39,7 @@ function startGame() {
     startTimer();
     totalGames++;
     updateStatistics();
+    addToHistory('Game Started');
 }
 
 function nextRound() {
@@ -44,6 +47,7 @@ function nextRound() {
     const nextColor = colors[Math.floor(Math.random() * colors.length)];
     sequence.push(nextColor);
     displaySequence();
+    addToHistory(`Level ${level} - Sequence: ${sequence.join(', ')}`);
 }
 
 function displaySequence() {
@@ -82,6 +86,7 @@ function handlePlayerInput(event) {
         clearInterval(timer);
         totalLosses++;
         updateStatistics();
+        addToHistory('Game Over');
     } else if (playerSequence.length === sequence.length) {
         message.textContent = 'Good job! Simon says...';
         gameBoard.removeEventListener('click', handlePlayerInput);
@@ -93,6 +98,7 @@ function handlePlayerInput(event) {
         totalWins++;
         updateStatistics();
         checkAchievements();
+        addToHistory(`Level ${level - 1} Completed`);
     }
 }
 
@@ -135,6 +141,7 @@ function startTimer() {
             updateHighScore();
             totalLosses++;
             updateStatistics();
+            addToHistory('Time Up');
         }
     }, 1000);
 }
@@ -151,22 +158,14 @@ function getSpeed() {
             return 750;
         case 'hard':
             return 500;
+        default:
+            return 1000;
     }
 }
 
 function updateTheme() {
     theme = document.getElementById('theme').value;
-    switch (theme) {
-        case 'default':
-            document.body.className = '';
-            break;
-        case 'dark':
-            document.body.className = 'dark-theme';
-            break;
-        case 'light':
-            document.body.className = 'light-theme';
-            break;
-    }
+    document.body.className = `${theme}-theme`;
 }
 
 function updateStatistics() {
@@ -176,7 +175,7 @@ function updateStatistics() {
 }
 
 function checkAchievements() {
-    if (!achievements.firstWin && totalWins > 0) {
+    if (!achievements.firstWin && totalWins === 1) {
         achievements.firstWin = true;
         document.getElementById('firstWin').textContent = 'Achieved';
     }
@@ -188,4 +187,11 @@ function checkAchievements() {
         achievements.score20 = true;
         document.getElementById('score20').textContent = 'Achieved';
     }
+}
+
+function addToHistory(event) {
+    const historyList = document.getElementById('historyList');
+    const listItem = document.createElement('li');
+    listItem.textContent = event;
+    historyList.appendChild(listItem);
 }
